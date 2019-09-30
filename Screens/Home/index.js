@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { SafeAreaView, Text, FlatList, View } from 'react-native'
 import axios from 'axios'
+import CharacterCard from './CharacterCard'
 
 const characterEndpoint = 'https://rickandmortyapi.com/api/character/'
 
@@ -22,7 +23,7 @@ const Home = () => {
     fetchData()
   }, [])
 
-  const keyExtractor = (item, index) => index
+  const keyExtractor = item => `character-${item.id}`
 
   return (
     <SafeAreaView>
@@ -31,14 +32,8 @@ const Home = () => {
         keyExtractor={keyExtractor}
         data={characters}
         extraData={characters}
-        renderItem={({ item }) => {
-          console.log(item)
-          return (
-            <View>
-              <Text>{item.name}</Text>
-            </View>
-          )
-        }}
+        renderItem={({ item }) => <CharacterCard character={item} />}
+        ItemSeparatorComponent={() => <View style={{ height: 40 }} />}
       />
     </SafeAreaView>
   )
